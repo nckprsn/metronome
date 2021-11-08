@@ -13,9 +13,7 @@ class Metronome
 		var default_settings =
 		{
 			'tempo': 120, // BPM
-			// 'pattern': [ 'tick' , 'tock' , 'tock' ],
 			'pattern': [ 'tick' , 'tock' , 'tock' , 'tock' ],
-			// 'pattern': [ 'tick' , 'tock' , 'tock' , 'tick' , 'tock' , 'tock' , 'tick' , 'tock' ],
 		};
 
 		this.settings = {};
