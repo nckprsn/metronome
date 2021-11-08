@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Metronome</title>
+
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+	<div class="m_metronome">
+
+		<div class="m_sequencer">
+			<div class="m_sequencer_steps">
+			</div>
+		</div>
+
+		<div class="m_steps">
+			<label class="m_steps_label">Steps</label>
+			<input class="m_steps_input" type="number">
+			<button class="m_steps_remove_button">-</button>
+			<button class="m_steps_add_button">+</button>
+		</div>
+
+		<div class="m_tempo">
+			<label class="m_tempo_label">BPM</label>
+			<input class="m_tempo_input" type="number">
+			<button class="m_tempo_decrease_button">-</button>
+			<button class="m_tempo_increase_button">+</button>
+		</div>
+
+		<div class="m_playpause">
+			<button class="m_playpause_button">Play/pause</button>
+		</div>
+
+	</div>
+
+	<script src="metronome.js"></script>
+	<script>
+
+		// --------------------------------------------------
+		// Create a new metronome
+
+		var $metronome = document.querySelector( '.m_metronome' );
+		var metronome = new Metronome( $metronome );
+
+		// --------------------------------------------------
+		// Get all our UI elements
+
+		var $playpause_button = document.querySelector( '.m_playpause_button' );
+		var $tempo_increase_button = document.querySelector( '.m_tempo_increase_button' );
+		var $tempo_decrease_button = document.querySelector( '.m_tempo_decrease_button' );
+		var $tempo_input = document.querySelector( '.m_tempo_input' );
+		var $sequencer_steps = document.querySelector( '.m_sequencer_steps' );
+		var $steps_remove_button = document.querySelector( '.m_steps_remove_button' );
+		var $steps_add_button = document.querySelector( '.m_steps_add_button' );
+		var $steps_input = document.querySelector( '.m_steps_input' );
+
+		// --------------------------------------------------
+		// Initial state
+
+		$tempo_input.value = metronome.tempo;
+		$steps_input.value = metronome.pattern.length;
+		sequencer_sync( metronome.pattern );
+
+		// --------------------------------------------------
+		// Bind our controls
+
+		// Play/pause
+		$playpause_button.addEventListener( 'click' , function(){ metronome.play_or_stop(); } );
+
+		// Tempo increase/decrease
+		$tempo_increase_button.addEventListener( 'click' , function(){ metronome.tempo += 10; } );
+		$tempo_decrease_button.addEventListener( 'click' , function(){ metronome.tempo -= 10; } );
+
+		// Tempo input
+		$tempo_input.addEventListener( 'change' , function(){ metronome.tempo = this.value; } );
+		$metronome.addEventListener( 'tempo_change' , function( e ){ $tempo_input.value = e.detail.tempo; } );
+
+		// Add/remove step buttons
+
+		$steps_input.addEventListener( 'change' , function()
+		{
+			pattern = metronome.pattern;
+			length_old = pattern.length;
+			length_new = this.value;
+
+			if( length_old < length_new )
+			{
+				while( pattern.length < length_new ) pattern.push( 'tock' );
+			}
+			else if( length_old > length_new )
+			{
+				while( pattern.length > length_new ) pattern.pop();
+			}
+
+			metronome.pattern = pattern;
+		} );
+
+		$metronome.addEventListener( 'pattern_change' , function( e ){ sequencer_sync( e.detail.pattern ); } );
+
+		// Add/remove step buttons
+
+		$steps_remove_button.addEventListener( 'click' , function()
+		{
+			$steps_input.value = parseInt( $steps_input.value ) - 1;
+			$steps_input.dispatchEvent( new Event( 'change' ) );
+		} );
+
+		$steps_add_button.addEventListener( 'click' , function()
+		{
+			$steps_input.value = parseInt( $steps_input.value ) + 1;
+			$steps_input.dispatchEvent( new Event( 'change' ) );
+		} );
+
+		// Step button clicks
+
+		$sequencer_steps.addEventListener( 'click' , function( e )
+		{
+			var types = [ 'tick' , 'tock' ];
+			if( e.target.classList.contains( 'm_sequencer_step' ) )
+			{
+				var current_type = e.target.getAttribute( 'data-type' );
+				e.target.setAttribute( 'data-type' , types[ ( types.indexOf( current_type ) + 1 ) % types.length ] );
+
+				metronome.pattern = get_pattern();
+			}
+		} );
+
+		// Beat!
+
+		$metronome.addEventListener( 'beat' , function( e )
+		{
+			// Get the active step element
+			var $step = $sequencer_steps.querySelector( '.m_sequencer_step:nth-child(' + parseInt( e.detail.cursor + 1 ) + ')' );
+
+			// Add the is_active class then...
+			$step.classList.add( 'is_active' );
+
+			// ...remove it after the animation has played
+			setTimeout( function(){ $step.classList.remove( 'is_active' ); } , 300 );
+
+		} );
+
+		// Sync the sequencer UI with metronome's pattern
+
+		function sequencer_sync( new_pattern )
+		{
+			var old_pattern = get_pattern();
+
+			for( var i = 0 ; i < Math.max( new_pattern.length , old_pattern.length ) ; i ++ )
+			{
+				// Add a step
+				if( old_pattern[ i ] == undefined )
+				{
+					var $step = document.createElement( 'button' );
+					$step.classList.add( 'm_sequencer_step' );
+					$step.setAttribute( 'data-type' , new_pattern[ i ] );
+
+					$sequencer_steps.appendChild( $step );
+				}
+				// Truncate the existing steps and break
+				else if( new_pattern[ i ] == undefined )
+				{
+					var $step_to_remove = null;
+
+					while( $step_to_remove = $sequencer_steps.querySelector( '.m_sequencer_step:nth-child( ' + parseInt( i + 1 ) + ' )' ) )
+					{
+						$step_to_remove.remove();
+					}
+
+					break;
+				}
+				// Otherwise just make sure the type is up-to-date
+				else
+				{
+					var $step = $sequencer_steps.querySelector( '.m_sequencer_step:nth-child( ' + parseInt( i + 1 ) + ' )' );
+					$step.setAttribute( 'data-type' , new_pattern[ i ] );
+				}
+			}
+		}
+
+		// Add a sequencer step
+
+		function get_pattern()
+		{
+			var steps = $sequencer_steps.querySelectorAll( '.m_sequencer_step' );
+			var pattern = [];
+
+			for( var i = 0 ; i < steps.length ; i++ )
+			{
+				pattern.push( steps[ i ].getAttribute( 'data-type' ) );
+			}
+
+			return pattern;
+		}
+
+	</script>
+
+</body>
+</html>

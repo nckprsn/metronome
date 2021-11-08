@@ -1,0 +1,160 @@
+
+/* --------------------------------------------------
+
+Reset
+
+*/
+
+*,*::before,*::after { box-sizing: border-box; }
+
+body
+{
+	margin: 0;
+	font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+}
+
+/* --------------------------------------------------
+
+
+
+*/
+
+.m_metronome
+{
+	width: 30em;
+	max-width: 100%;
+	padding: 1em;
+
+	--tick-colour: red;
+	--tick-flash: yellow;
+
+	--tock-colour: blue;
+	--tock-flash: cyan;
+}
+
+/* --------------------------------------------------
+
+Sequencer
+
+*/
+
+.m_sequencer
+{
+}
+
+.m_sequencer_steps
+{
+	display: flex;
+	flex-flow: row nowrap;
+
+	padding: 0.25rem;
+	gap: 0.25rem;
+}
+
+.m_sequencer_step
+{
+	display: block;
+	padding: 3em 1em;
+	flex-grow: 1;
+}
+
+.m_sequencer_step[data-type="tick"]
+{
+	background: var( --tick-colour );
+}
+
+.m_sequencer_step[data-type="tock"]
+{
+	background: var( --tock-colour );
+}
+
+/* Flashing animation */
+
+@keyframes tick
+{
+	from { background: var( --tick-flash ); box-shadow: 0 0 1em var( --tick-flash ); }
+	to { background: var( --tick-colour ); box-shadow: 0 0 0 var( --tick-flash ); }
+}
+
+@keyframes tock
+{
+	from { background: var( --tock-flash ); box-shadow: 0 0 1em var( --tock-flash ); }
+	to { background: var( --tock-colour ); box-shadow: 0 0 0 var( --tock-flash ); }
+}
+
+.m_sequencer_step[data-type="tick"].is_active
+{
+	animation-name: tick;
+	animation-duration: 300ms;
+}
+
+.m_sequencer_step[data-type="tock"].is_active
+{
+	animation-name: tock;
+	animation-duration: 300ms;
+}
+
+/* --------------------------------------------------
+
+Step controls
+
+*/
+
+.m_steps
+{
+	display: flex;
+	flex-flow: row nowrap;
+
+	padding: 0.25rem;
+	gap: 0.25rem;
+}
+
+.m_steps_label
+{
+
+}
+
+.m_steps_input
+{
+
+}
+
+/* --------------------------------------------------
+
+Tempo controls
+
+*/
+
+.m_tempo
+{
+	display: flex;
+	flex-flow: row nowrap;
+
+	padding: 0.25rem;
+	gap: 0.25rem;
+}
+
+.m_tempo_label
+{
+
+}
+
+.m_tempo_input
+{
+
+}
+
+/* --------------------------------------------------
+
+Play/pause button
+
+*/
+
+.m_playpause_button
+{
+	display: block;
+	width: 100%;
+	padding: 2em;
+}
+
+/* -------------------------------------------------- */
