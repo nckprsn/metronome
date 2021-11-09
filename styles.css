@@ -19,11 +19,17 @@ Layout
 
 */
 
+html
+{
+	width: 100%;
+	height: 100%;
+}
+
 body
 {
 	display: grid;
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 }
 
 body > * { margin: auto; }
@@ -43,8 +49,9 @@ Main metronome
 	--tock-flash: cyan;
 
 	width: 100%;
-	max-width: 40em;
 	height: 100%;
+	max-width: 40em;
+	max-height: 50em;
 
 	display: flex;
 	flex-flow: column nowrap;
