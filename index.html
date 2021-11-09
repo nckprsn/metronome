@@ -17,11 +17,11 @@
 			</div>
 		</div>
 
-		<div class="m_steps">
-			<label class="m_steps_label">Beats</label>
-			<input class="m_steps_input" type="number">
-			<button class="m_steps_remove_button">-</button>
-			<button class="m_steps_add_button">+</button>
+		<div class="m_beats">
+			<label class="m_beats_label">Beats</label>
+			<input class="m_beats_input" type="number">
+			<button class="m_beats_remove_button">-</button>
+			<button class="m_beats_add_button">+</button>
 		</div>
 
 		<div class="m_tempo">
@@ -50,19 +50,22 @@
 		// Get all our UI elements
 
 		var $playpause_button = document.querySelector( '.m_playpause_button' );
+
 		var $tempo_increase_button = document.querySelector( '.m_tempo_increase_button' );
 		var $tempo_decrease_button = document.querySelector( '.m_tempo_decrease_button' );
 		var $tempo_input = document.querySelector( '.m_tempo_input' );
+
 		var $sequencer_steps = document.querySelector( '.m_sequencer_steps' );
-		var $steps_remove_button = document.querySelector( '.m_steps_remove_button' );
-		var $steps_add_button = document.querySelector( '.m_steps_add_button' );
-		var $steps_input = document.querySelector( '.m_steps_input' );
+
+		var $beats_remove_button = document.querySelector( '.m_beats_remove_button' );
+		var $beats_add_button = document.querySelector( '.m_beats_add_button' );
+		var $beats_input = document.querySelector( '.m_beats_input' );
 
 		// --------------------------------------------------
 		// Initial state
 
 		$tempo_input.value = metronome.tempo;
-		$steps_input.value = metronome.pattern.length;
+		$beats_input.value = metronome.pattern.length;
 		sequencer_sync( metronome.pattern );
 
 		// --------------------------------------------------
@@ -81,7 +84,7 @@
 
 		// Add/remove step buttons
 
-		$steps_input.addEventListener( 'change' , function()
+		$beats_input.addEventListener( 'change' , function()
 		{
 			pattern = metronome.pattern;
 			length_old = pattern.length;
@@ -103,16 +106,16 @@
 
 		// Add/remove step buttons
 
-		$steps_remove_button.addEventListener( 'click' , function()
+		$beats_remove_button.addEventListener( 'click' , function()
 		{
-			$steps_input.value = parseInt( $steps_input.value ) - 1;
-			$steps_input.dispatchEvent( new Event( 'change' ) );
+			$beats_input.value = parseInt( $beats_input.value ) - 1;
+			$beats_input.dispatchEvent( new Event( 'change' ) );
 		} );
 
-		$steps_add_button.addEventListener( 'click' , function()
+		$beats_add_button.addEventListener( 'click' , function()
 		{
-			$steps_input.value = parseInt( $steps_input.value ) + 1;
-			$steps_input.dispatchEvent( new Event( 'change' ) );
+			$beats_input.value = parseInt( $beats_input.value ) + 1;
+			$beats_input.dispatchEvent( new Event( 'change' ) );
 		} );
 
 		// Step button clicks
