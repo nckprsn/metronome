@@ -207,17 +207,17 @@ class Metronome
 
 		// Create a gain envelope to round off the start and end of the beep
 		var envelope = this.audio_context.createGain();
-        envelope.gain.value = 1;
-        envelope.gain.exponentialRampToValueAtTime( 1 , beat_time + 0.001 );
-        envelope.gain.exponentialRampToValueAtTime( 0.001 , beat_time + 0.03 );
+		envelope.gain.value = 1;
+		envelope.gain.exponentialRampToValueAtTime( 1 , beat_time + 0.001 );
+		envelope.gain.exponentialRampToValueAtTime( 0.001 , beat_time + 0.03 );
 
 		// Hook up the generator with the gain envelope and the output
-        oscillator.connect( envelope );
-        envelope.connect( this.audio_context.destination );
+		oscillator.connect( envelope );
+		envelope.connect( this.audio_context.destination );
 
 		// Set our sound to play at the right time
-        oscillator.start( beat_time );
-        oscillator.stop( beat_time + 0.03 );
+		oscillator.start( beat_time );
+		oscillator.stop( beat_time + 0.03 );
 
 		// Dispatch an event to broadcast the beat
 		var beat_event = new CustomEvent( 'beat' , { 'detail': { 'cursor': beat_cursor , 'type': beat_type } } );
