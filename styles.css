@@ -135,7 +135,7 @@ Sequencer
 .m_sequencer_step
 {
 	display: block;
-	height: 8vmax;
+	height: 7em;
 	flex-grow: 1;
 }
 
