@@ -12,7 +12,7 @@ body
 	margin: 0;
 	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
 	background: hsl( 220 , 15% , 20% );
-  color: white;
+	color: white;
 }
 
 /* --------------------------------------------------
@@ -70,7 +70,7 @@ button:active
 
 /* --------------------------------------------------
 
-
+Text/number inputs
 
 */
 
@@ -81,6 +81,18 @@ input
 	color: inherit;
 	font: inherit;
 	appearance: none;
+}
+
+/* --------------------------------------------------
+
+SVG icons
+
+*/
+
+.svg_icon
+{
+	width: 0.7em;
+	height: 0.7em;
 }
 
 /* --------------------------------------------------
@@ -112,6 +124,14 @@ Main metronome
 {
 	margin: auto 0;
 }
+
+/* Show/hide when playing utility classes */
+
+.m_metronome.is_stopped .m_show_when_playing { display: none; }
+.m_metronome.is_playing .m_show_when_playing { display: block; }
+
+.m_metronome.is_stopped .m_hide_when_playing { display: block; }
+.m_metronome.is_playing .m_hide_when_playing { display: none; }
 
 /* --------------------------------------------------
 
@@ -189,7 +209,7 @@ Beats controls
 
 .m_beats_label
 {
-
+	opacity: 0.3;
 }
 
 .m_beats_input
@@ -202,7 +222,14 @@ Beats controls
 .m_beats_remove_button
 {
 	font-size: inherit;
-	width: 2em
+	padding: 0.3em;
+}
+
+/* Get rid of the bottom gap */
+.m_beats_add_button > .svg_icon,
+.m_beats_remove_button > .svg_icon
+{
+	display: block;
 }
 
 /* --------------------------------------------------
@@ -219,7 +246,7 @@ Tempo controls
 
 .m_tempo_label
 {
-
+	opacity: 0.3;
 }
 
 .m_tempo_input
@@ -232,7 +259,14 @@ Tempo controls
 .m_tempo_decrease_button
 {
 	font-size: inherit;
-	width: 2em
+	padding: 0.3em;
+}
+
+/* Get rid of the bottom gap */
+.m_tempo_increase_button > .svg_icon,
+.m_tempo_decrease_button > .svg_icon
+{
+	display: block;
 }
 
 /* --------------------------------------------------
@@ -241,11 +275,22 @@ Play/pause button
 
 */
 
+.m_playpause
+{
+	text-align: center;
+}
+
 .m_playpause_button
 {
-	display: block;
 	width: 100%;
-	padding: 2em;
+	padding: 0.3em;
+	font-size: calc( 3vw + 3vh + 3rem );
+}
+
+.m_playpause_button > .svg_icon
+{
+	display: block;
+	margin: 0 auto;
 }
 
 /* -------------------------------------------------- */
