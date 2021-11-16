@@ -81,6 +81,12 @@ input
 	color: inherit;
 	font: inherit;
 	appearance: none;
+	text-align: right
+}
+
+label
+{
+	font-size: 0.66em;
 }
 
 /* --------------------------------------------------
@@ -214,14 +220,12 @@ Beats controls
 
 .m_beats_input
 {
-	font-size: inherit;
 	width: 1.5em;
 }
 
 .m_beats_add_button,
 .m_beats_remove_button
 {
-	font-size: inherit;
 	padding: 0.3em;
 }
 
@@ -251,14 +255,12 @@ Tempo controls
 
 .m_tempo_input
 {
-	font-size: inherit;
 	width: 2em;
 }
 
 .m_tempo_increase_button,
 .m_tempo_decrease_button
 {
-	font-size: inherit;
 	padding: 0.3em;
 }
 
