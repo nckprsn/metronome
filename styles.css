@@ -203,7 +203,7 @@ Beats controls
 
 .m_beats
 {
-	font-size: calc( 0.75vw + 0.75vh + 0.75rem );
+	font-size: calc( 1.25vw + 1.25vh + 1.25rem );
 	text-align: center;
 }
 
@@ -215,7 +215,7 @@ Beats controls
 .m_beats_input
 {
 	font-size: inherit;
-	width: 3em;
+	width: 1.5em;
 }
 
 .m_beats_add_button,
@@ -240,7 +240,7 @@ Tempo controls
 
 .m_tempo
 {
-	font-size: calc( 1.25vw + 1.25vh + 1.25rem );
+	font-size: calc( 1.75vw + 1.75vh + 1.75rem );
 	text-align: center;
 }
 
@@ -252,7 +252,7 @@ Tempo controls
 .m_tempo_input
 {
 	font-size: inherit;
-	width: 3em;
+	width: 2em;
 }
 
 .m_tempo_increase_button,
