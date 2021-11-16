@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<div class="m_metronome">
+	<div class="m_metronome is_stopped">
 
 		<div class="m_sequencer">
 			<div class="m_sequencer_steps">
@@ -20,187 +20,28 @@
 		<div class="m_beats">
 			<label class="m_beats_label">Beats</label>
 			<input class="m_beats_input" type="number">
-			<button class="m_beats_remove_button">-</button>
-			<button class="m_beats_add_button">+</button>
+			<button class="m_beats_remove_button" aria-label="Remove a beat"><svg class="svg_icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="currentColor" d="M0 15h40v10h-40v-10z"></path></svg></button>
+			<button class="m_beats_add_button" aria-label="Add a beat"><svg class="svg_icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="currentColor" d="M0 15h15v-15h10v15h15v10h-15v15h-10v-15h-15z"></path></svg></button>
 		</div>
 
 		<div class="m_tempo">
 			<label class="m_tempo_label">BPM</label>
 			<input class="m_tempo_input" type="number">
-			<button class="m_tempo_decrease_button">-</button>
-			<button class="m_tempo_increase_button">+</button>
+			<button class="m_tempo_decrease_button" aria-label="Decrease BPM"><svg class="svg_icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="currentColor" d="M0 15h40v10h-40v-10z"></path></svg></button>
+			<button class="m_tempo_increase_button" aria-label="Increase BPM"><svg class="svg_icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="currentColor" d="M0 15h15v-15h10v15h15v10h-15v15h-10v-15h-15z"></path></svg></button>
 		</div>
 
 		<div class="m_playpause">
-			<button class="m_playpause_button">Play/pause</button>
+			<button class="m_playpause_button" aria-label="Play/pause">
+				<svg class="svg_icon m_hide_when_playing" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="currentColor" d="M7 0L33 20L7 40z"></path></svg>
+				<svg class="svg_icon m_show_when_playing" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="currentColor" d="M7 0v40h10v-40h-10z"></path><path fill="currentColor" d="M23 0v40h10v-40h-10z"></path></svg>
+			</button>
 		</div>
 
 	</div>
 
 	<script src="metronome.js"></script>
-	<script>
-
-		// --------------------------------------------------
-		// Create a new metronome
-
-		var $metronome = document.querySelector( '.m_metronome' );
-		var metronome = new Metronome( $metronome );
-
-		// --------------------------------------------------
-		// Get all our UI elements
-
-		var $playpause_button = document.querySelector( '.m_playpause_button' );
-
-		var $tempo_increase_button = document.querySelector( '.m_tempo_increase_button' );
-		var $tempo_decrease_button = document.querySelector( '.m_tempo_decrease_button' );
-		var $tempo_input = document.querySelector( '.m_tempo_input' );
-
-		var $sequencer_steps = document.querySelector( '.m_sequencer_steps' );
-
-		var $beats_remove_button = document.querySelector( '.m_beats_remove_button' );
-		var $beats_add_button = document.querySelector( '.m_beats_add_button' );
-		var $beats_input = document.querySelector( '.m_beats_input' );
-
-		// --------------------------------------------------
-		// Initial state
-
-		$tempo_input.value = metronome.tempo;
-		$beats_input.value = metronome.pattern.length;
-		sequencer_sync( metronome.pattern );
-
-		// --------------------------------------------------
-		// Bind our controls
-
-		// Play/pause
-		$playpause_button.addEventListener( 'click' , function(){ metronome.play_or_stop(); } );
-
-		// Tempo increase/decrease
-		$tempo_increase_button.addEventListener( 'click' , function(){ metronome.tempo += 10; } );
-		$tempo_decrease_button.addEventListener( 'click' , function(){ metronome.tempo -= 10; } );
-
-		// Tempo input
-		$tempo_input.addEventListener( 'change' , function(){ metronome.tempo = this.value; } );
-		$metronome.addEventListener( 'tempo_change' , function( e ){ $tempo_input.value = e.detail.tempo; } );
-
-		// Add/remove step buttons
-
-		$beats_input.addEventListener( 'change' , function()
-		{
-			pattern = metronome.pattern;
-			length_old = pattern.length;
-			length_new = this.value;
-
-			if( length_old < length_new )
-			{
-				while( pattern.length < length_new ) pattern.push( 'tock' );
-			}
-			else if( length_old > length_new )
-			{
-				while( pattern.length > length_new ) pattern.pop();
-			}
-
-			metronome.pattern = pattern;
-		} );
-
-		$metronome.addEventListener( 'pattern_change' , function( e ){ sequencer_sync( e.detail.pattern ); } );
-
-		// Add/remove step buttons
-
-		$beats_remove_button.addEventListener( 'click' , function()
-		{
-			$beats_input.value = parseInt( $beats_input.value ) - 1;
-			$beats_input.dispatchEvent( new Event( 'change' ) );
-		} );
-
-		$beats_add_button.addEventListener( 'click' , function()
-		{
-			$beats_input.value = parseInt( $beats_input.value ) + 1;
-			$beats_input.dispatchEvent( new Event( 'change' ) );
-		} );
-
-		// Step button clicks
-
-		$sequencer_steps.addEventListener( 'click' , function( e )
-		{
-			var types = [ 'tick' , 'tock' ];
-			if( e.target.classList.contains( 'm_sequencer_step' ) )
-			{
-				var current_type = e.target.getAttribute( 'data-type' );
-				e.target.setAttribute( 'data-type' , types[ ( types.indexOf( current_type ) + 1 ) % types.length ] );
-
-				metronome.pattern = get_pattern();
-			}
-		} );
-
-		// Beat!
-
-		$metronome.addEventListener( 'beat' , function( e )
-		{
-			// Get the active step element
-			var $step = $sequencer_steps.querySelector( '.m_sequencer_step:nth-child(' + parseInt( e.detail.cursor + 1 ) + ')' );
-
-			// Add the is_active class then...
-			$step.classList.add( 'is_active' );
-
-			// ...remove it after the animation has played
-			setTimeout( function(){ $step.classList.remove( 'is_active' ); } , 300 );
-
-		} );
-
-		// Sync the sequencer UI with metronome's pattern
-
-		function sequencer_sync( new_pattern )
-		{
-			var old_pattern = get_pattern();
-
-			for( var i = 0 ; i < Math.max( new_pattern.length , old_pattern.length ) ; i ++ )
-			{
-				// Add a step
-				if( old_pattern[ i ] == undefined )
-				{
-					var $step = document.createElement( 'button' );
-					$step.classList.add( 'm_sequencer_step' );
-					$step.setAttribute( 'data-type' , new_pattern[ i ] );
-
-					$sequencer_steps.appendChild( $step );
-				}
-				// Truncate the existing steps and break
-				else if( new_pattern[ i ] == undefined )
-				{
-					var $step_to_remove = null;
-
-					while( $step_to_remove = $sequencer_steps.querySelector( '.m_sequencer_step:nth-child( ' + parseInt( i + 1 ) + ' )' ) )
-					{
-						$step_to_remove.remove();
-					}
-
-					break;
-				}
-				// Otherwise just make sure the type is up-to-date
-				else
-				{
-					var $step = $sequencer_steps.querySelector( '.m_sequencer_step:nth-child( ' + parseInt( i + 1 ) + ' )' );
-					$step.setAttribute( 'data-type' , new_pattern[ i ] );
-				}
-			}
-		}
-
-		// Add a sequencer step
-
-		function get_pattern()
-		{
-			var steps = $sequencer_steps.querySelectorAll( '.m_sequencer_step' );
-			var pattern = [];
-
-			for( var i = 0 ; i < steps.length ; i++ )
-			{
-				pattern.push( steps[ i ].getAttribute( 'data-type' ) );
-			}
-
-			return pattern;
-		}
-
-	</script>
+	<script src="metronome.ui.js"></script>
 
 </body>
 </html>
