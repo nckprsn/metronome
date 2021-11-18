@@ -11,7 +11,7 @@ body
 {
 	margin: 0;
 	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
-	background: hsl( 220 , 15% , 20% );
+	background: linear-gradient( -30deg , hsl( 220 , 15% , 17% ) , hsl( 220 , 15% , 23% ) );
 	color: white;
 }
 
@@ -54,7 +54,8 @@ button
 	color: white;
 	background: hsl( 220 , 15% , 30% );
 	
-	box-shadow: 0 0.3rem 0.2rem hsl( 220 , 15% , 15% );
+	box-shadow: 0 0.3rem 0.2rem hsl( 220 , 15% , 15% ),
+	            0 1px 1px hsla( 220 , 50% , 80% , 0.3 ) inset;
 	
 	transform: translatey( -0.15rem );
 	
@@ -63,7 +64,8 @@ button
 
 button:active
 {
-	box-shadow: 0 0 1px hsl( 220 , 15% , 15% );
+	box-shadow: 0 0 1px hsl( 220 , 15% , 15% ),
+	            0 1px 1px hsla( 220 , 50% , 80% , 0.3 ) inset;
 	transform: translatey( 0 );
 	transition: none;
 }
