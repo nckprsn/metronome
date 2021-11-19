@@ -44,6 +44,10 @@ Buttons
 
 button
 {
+	--background: hsl( 220 , 15% , 30% );
+	--highlight: hsla( 220 , 50% , 80% , 0.3 );
+	--shadow: hsla( 220 , 15% , 10% , 0.5 );
+	
 	font: inherit;
 	line-height: inherit;
 	font-weight: bold;
@@ -54,20 +58,20 @@ button
 	border-radius: 0.4rem;
 
 	color: white;
-	background: hsl( 220 , 15% , 30% );
+	background: var( --background );
 
-	box-shadow: 0 0.3rem 0.2rem hsl( 220 , 15% , 15% ),
-	            0 1px 1px hsla( 220 , 50% , 80% , 0.3 ) inset;
+	box-shadow: 0 0.3rem 0.2rem var( --shadow ),
+	            0 1px 1px var( --highlight ) inset;
 	
 	transform: translatey( -0.15rem );
 	
-	transition: all 200ms cubic-bezier( 0.5,3 , 0.8,1 );
+	transition: all 200ms cubic-bezier( 0.5,2 , 0.8,1 );
 }
 
 button:active
 {
-	box-shadow: 0 0 1px hsl( 220 , 15% , 15% ),
-	            0 1px 1px hsla( 220 , 50% , 80% , 0.3 ) inset;
+	box-shadow: 0 2px 1px var( --shadow ),
+	            0 1px 1px var( --highlight ) inset;
 
 	transform: translatey( 0 );
 
