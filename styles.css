@@ -119,12 +119,6 @@ Main metronome
 
 .m_metronome
 {
-	--tick-colour: orangered;
-	--tick-flash: orange;
-
-	--tock-colour: limegreen;
-	--tock-flash: chartreuse;
-
 	width: 100%;
 	max-width: 40em;
 	height: 100%;
@@ -157,7 +151,13 @@ Sequencer
 
 .m_sequencer
 {
+	--tick-colour: orangered;
+	--tick-flash: orange;
 
+	--tock-colour: limegreen;
+	--tock-flash: chartreuse;
+	
+	padding-top: 0.2rem; /* Compensate for button lift */
 }
 
 .m_sequencer_steps
@@ -177,37 +177,27 @@ Sequencer
 
 .m_sequencer_step[data-type="tick"]
 {
-	background: var( --tick-colour );
+	--background: var( --tick-colour );
+	--highlight: var( --tick-flash );
 }
 
 .m_sequencer_step[data-type="tock"]
 {
-	background: var( --tock-colour );
+	--background: var( --tock-colour );
+	--highlight: var( --tock-flash );
 }
 
 /* Flashing animation */
 
-@keyframes tick
+@keyframes flash
 {
-	from { background: var( --tick-flash ); }
-	to { background: var( --tick-colour ); }
+	from { background: var( --highlight ); }
+	to { background: var( --background ); }
 }
 
-@keyframes tock
+.m_sequencer_step.is_active
 {
-	from { background: var( --tock-flash ); }
-	to { background: var( --tock-colour ); }
-}
-
-.m_sequencer_step[data-type="tick"].is_active
-{
-	animation-name: tick;
-	animation-duration: 300ms;
-}
-
-.m_sequencer_step[data-type="tock"].is_active
-{
-	animation-name: tock;
+	animation-name: flash;
 	animation-duration: 300ms;
 }
 
