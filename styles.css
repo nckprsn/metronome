@@ -175,6 +175,8 @@ Sequencer
 	flex-grow: 1;
 }
 
+/* Colour variants */
+
 .m_sequencer_step[data-type="tick"]
 {
 	--background: var( --tick-colour );
@@ -185,6 +187,28 @@ Sequencer
 {
 	--background: var( --tock-colour );
 	--highlight: var( --tock-flash );
+}
+
+/* FX overlay */
+
+.m_sequencer_step::after
+{
+	content:'';
+	display: block;
+	opacity:0.5;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background: radial-gradient( transparent , var( --background ) ),
+	            100% / 0.4rem 0.4rem radial-gradient( var( --highlight ) , transparent );
+	
+	box-shadow: 0 1px 1px var( --highlight ) inset; /* Mimics the highlight on main element */
+	
+	border-radius: inherit;
 }
 
 /* Flashing animation */
@@ -215,7 +239,7 @@ Beats controls
 
 .m_beats_label
 {
-	opacity: 0.3;
+	color: hsl( 200 , 5% , 50% );
 }
 
 .m_beats_input
@@ -250,7 +274,7 @@ Tempo controls
 
 .m_tempo_label
 {
-	opacity: 0.3;
+	color: hsl( 200 , 5% , 50% );
 }
 
 .m_tempo_input
