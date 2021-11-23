@@ -125,7 +125,7 @@ Main metronome
 
 	display: flex;
 	flex-flow: column nowrap;
-	justify-content: space-around;
+	justify-content: space-between;
 	
 	gap: 0.5rem;
 	padding: 0.5rem;
