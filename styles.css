@@ -151,12 +151,12 @@ Sequencer
 
 .m_sequencer
 {
-	/* Compensate for button lift */
-	padding-top: 0.2rem;
-	
 	display: flex;
 	flex-flow: column nowrap;
 	gap: 0.5rem;
+
+	/* Compensate for button lift */
+	padding-top: 0.2rem;
 }
 
 .m_sequencer_steps
@@ -236,6 +236,7 @@ Beats controls
 	flex-flow: row wrap;
 	justify-content: center;
 	align-items: baseline;
+	gap: 0.5rem;
 
 	font-size: calc( 1.25vw + 1.25vh + 1.25rem );
 }
@@ -275,6 +276,7 @@ Tempo controls
 	flex-flow: row wrap;
 	justify-content: center;
 	align-items: baseline;
+	gap: 0.5rem;
 
 	font-size: calc( 2.5vw + 2.5vh + 2.5rem );
 }
