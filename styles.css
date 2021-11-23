@@ -125,14 +125,10 @@ Main metronome
 
 	display: flex;
 	flex-flow: column nowrap;
+	justify-content: space-around;
 	
 	gap: 0.5rem;
 	padding: 0.5rem;
-}
-
-.m_metronome > .m_tempo
-{
-	margin: auto 0;
 }
 
 /* Show/hide when playing utility classes */
