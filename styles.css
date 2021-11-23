@@ -228,8 +228,11 @@ Beats controls
 
 .m_beats
 {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+
 	font-size: calc( 1.25vw + 1.25vh + 1.25rem );
-	text-align: center;
 }
 
 .m_beats_label
@@ -263,8 +266,11 @@ Tempo controls
 
 .m_tempo
 {
-	font-size: calc( 1.75vw + 1.75vh + 1.75rem );
-	text-align: center;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+
+	font-size: calc( 2.5vw + 2.5vh + 2.5rem );
 }
 
 .m_tempo_label
